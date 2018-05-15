@@ -6,7 +6,7 @@ import sys
 import argparse
 import boto3
 
-__version__ = "0.1.12"
+__version__ = "0.1.14"
 
 
 def load_ssm_envvars(ssm_path):

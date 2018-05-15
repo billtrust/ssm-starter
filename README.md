@@ -12,8 +12,24 @@ pip install ssm-starter
 
 ## Usage
 
+SSM-Starter is installed as a command line utility and can be run as:
+
 ```shell
-ssm-starter --ssm-name my-app --command "npm start"
+ssm-starter --ssm-name my-app --command "/bin/bash run-app.sh"
+```
+
+Alternatively:
+
+```shell
+python -m ssm_starter --ssm-name my-app --command "/bin/bash run-app.sh"
+```
+
+Regarding format of ssm-name and pathing, note that all of the following are equivalent:
+
+```shell
+ssm-starter --ssm-name /dev/my-app --command "/bin/bash run-app.sh"
+ssm-starter --ssm-name /dev/my-app/ --command "/bin/bash run-app.sh"
+export AWS_ENV=dev && ssm-starter --ssm-name my-app --command "/bin/bash run-app.sh"
 ```
 
 ## Example
@@ -29,7 +45,7 @@ SSM Path | Value
 Running ssm-starter with the ssm-name "my-app" and environment variable AWS_ENV set to "dev" result in the following:
 
 ```shell
-  $ export AWS_DEFAULT_REGION=us-east-1
+  $ export AWS_REGION=us-east-1
   $ export AWS_ENV=dev
   $ ssm-starter --ssm-name my-app --command "/bin/bash run-app.sh"
   Reading parameters from SSM path: /dev/my-app/
