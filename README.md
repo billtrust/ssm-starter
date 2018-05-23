@@ -2,6 +2,8 @@
 
 Loads AWS SSM Parameter Store parameters into local system environment variables and then executes your application so it has access to those environment variables.
 
+This was inspired by the Twelve-Factor App principle [Store config in the environment](https://12factor.net/config).
+
 The intended use case is to be used as the ENTRYPOINT to Docker containers which run in AWS where the application gets its configuration from SSM and stores it in the environment, then starts the application, which can reference these values through the environment. 
 
 ## Installation
