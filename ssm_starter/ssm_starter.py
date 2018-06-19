@@ -6,7 +6,7 @@ import sys
 import argparse
 import boto3
 
-__version__ = "0.1.15"
+__version__ = "0.1.16"
 
 
 def load_ssm_envvars(ssm_path):
@@ -126,5 +126,8 @@ def main():
     print(args.command)
     exit_code = os.system(args.command)
 
-    print("Application ended with exit code {}".format(exit_code))
-    sys.exit(str(exit_code))
+    print("SSM Starter - application ended with exit code {}".format(exit_code))
+    if exit_code > 127 or exit_code < 0:
+        print("Exit code from application out of range, overriding to exit code 1")
+        exit_code = 1
+    sys.exit(exit_code)
