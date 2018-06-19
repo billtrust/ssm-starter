@@ -6,7 +6,7 @@ import sys
 import argparse
 import boto3
 
-__version__ = "0.1.14"
+__version__ = "0.1.15"
 
 
 def load_ssm_envvars(ssm_path):
@@ -127,4 +127,4 @@ def main():
     exit_code = os.system(args.command)
 
     print("Application ended with exit code {}".format(exit_code))
-    sys.exit(exit_code)
+    sys.exit(str(exit_code))
