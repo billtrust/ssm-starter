@@ -6,7 +6,7 @@ import sys
 import argparse
 import boto3
 
-__version__ = "0.1.16"
+__version__ = "0.1.17"
 
 
 def load_ssm_envvars(ssm_path):
@@ -16,6 +16,7 @@ def load_ssm_envvars(ssm_path):
 
     client = session.client('ssm')
     next_token = ''
+    page = 1
     full_params = []
 
     print("Reading parameters from SSM path: {}".format(ssm_path))
@@ -23,28 +24,34 @@ def load_ssm_envvars(ssm_path):
         response = client.get_parameters_by_path(
             Path=ssm_path,
             Recursive=True,
+            MaxResults=10,
             WithDecryption=True
         )
         full_params.extend(response['Parameters'])
         if 'NextToken' in response:
-            full_params = response['NextToken']
+            next_token = response['NextToken']
     except Exception as e:
         print("Error querying list of ssm parameters: {}".format(repr(e)))
         raise
 
     while next_token:
+        page += 1
+        print("Reading page {} of parameters by path...".format(page))
         try:
             response = client.get_parameters_by_path(
                 Path=ssm_path,
                 Recursive=True,
                 WithDecryption=True,
+                MaxResults=10,
                 NextToken=next_token
             )
+            if not response['Parameters']:
+                print("Error - No additional parameters found in subsequent page read!")
             full_params.extend(response['Parameters'])
             if 'NextToken' in response:
                 next_token = response['NextToken']
             else:
-                next_token = ""
+                next_token = ''
         except Exception as e:
             print("Error querying list of ssm parameters: {}".format(repr(e)))
             raise
@@ -67,7 +74,7 @@ def load_ssm_envvars(ssm_path):
                         "{} - setting value from ssm (SecureString, {} chars)".format(envvar_name, len(envvar_value)))
                 os.environ[envvar_name] = envvar_value
         except Exception as e:
-            print("Error processing parameter: {}".format(str(e)))
+            print("Error processing parameter: {}\nParameter: {}".format(str(e), parameter))
 
 
 def required_envvars_present():
