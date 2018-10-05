@@ -8,4 +8,7 @@ WORKDIR /app
 
 COPY . .
 
+RUN make install-dev-deps && \
+    make setup
+
 ENTRYPOINT ["/bin/bash"]

@@ -1,4 +1,5 @@
 dist/
 build/
+test-output/
 *.pyc
 *.egg-info/
