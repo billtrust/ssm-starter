@@ -62,7 +62,7 @@ After this runs these variables are in the environment and accessible to the app
 The name prefix of your application.  If you have an environment variable AWS_ENV present, it will additionally prefix this with that.  Multiple `--ssm-name` arguments can be provided in which case SSM starter will read all parameters from each SSM path provided.
 
 `--command`
-The command to execute after loading the SSM variables into the environment.  The command does not need to be enclosed in quotes but *this should be the last argument as all arguments after this are assumed to be part of the command to execute*.
+The command to execute after loading the SSM variables into the environment.  The command does not need to be enclosed in quotes but **this should be the last argument as all arguments after this are assumed to be part of the command to execute**.
 
 `--abort-if-duplicates`
 This optional argument will instruct SSM Starter to abort (non-zero exit code) if any duplicate parameter names are found.  This would only occur if multiple `--ssm-name` arguments are provided.  The default behavior is to skip any encountered duplicates, which also logs a warning message.
