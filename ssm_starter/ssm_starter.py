@@ -7,7 +7,7 @@ import argparse
 import boto3
 
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 
 
 def load_ssm_params(ssm_path):
@@ -182,9 +182,6 @@ def create_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--ssm-name', required=True, action='append', dest='ssm_names',
                         help='The SSM name prefix to load parameters from.')
-    parser.add_argument('--command', required=True,
-                        help='The command to run after loading SSM parameters into the environment.')
-
     mutually_exclusive_group = parser.add_mutually_exclusive_group(required=False)
     mutually_exclusive_group.add_argument('--abort-if-duplicates', action='store_true',
                         default=False,
@@ -192,6 +189,8 @@ def create_parser():
     mutually_exclusive_group.add_argument('--overwrite-if-duplicates', action='store_true',
                         default=False,
                         help='If set will overwrite the last value if dupliate SSM parameter names are encountered.')
+    parser.add_argument('--command', required=True, nargs=argparse.REMAINDER,
+                        help='The command to run after loading SSM parameters into the environment.')
     return parser
 
 
@@ -222,5 +221,6 @@ def main():
     # after loading SSM parameters into the environment, run the given command
     # to start the application
 
-    exit_code = start_entrypoint(args.command)
+    command = ' '.join(args.command)
+    exit_code = start_entrypoint(command)
     sys.exit(exit_code)

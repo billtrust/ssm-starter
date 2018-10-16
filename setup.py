@@ -15,7 +15,7 @@ try:
     import pypandoc
     long_description = pypandoc.convert('README.md', 'rst')
 except (IOError, ImportError, OSError) as e:
-    print("Error converting READMD.md to rst:", str(e))
+    print("Error converting READMD.md to rst: {}".format(e))
     long_description = open('README.md').read()
 
 setup(name='ssm-starter',
@@ -24,14 +24,14 @@ setup(name='ssm-starter',
       long_description=long_description,
       keywords=['aws', 'ssm', 'aws-ssm', 'parameter-store'],
       author='Doug Kerwin',
-      author_email='dkerwin@billtrust.com',
+      author_email='dwkerwin@gmail.com',
       url='https://github.com/billtrust/ssm-starter',
       install_requires=[
         'boto3>=1.7.20, <2.0',
         'botocore>=1.10.20, <2.0',
         'six>=1.11.0, <2.0'
         ],
-      packages=find_packages(),
+      packages=find_packages(exclude=['pypandoc']),
       entry_points={
         "console_scripts": ['ssm-starter = ssm_starter.ssm_starter:main']
         },

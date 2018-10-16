@@ -19,15 +19,15 @@ pip install ssm-starter
 SSM-Starter is installed as a command line utility and can be run as:
 
 ```shell
-ssm-starter --ssm-name /dev/my-app/ --command "/bin/bash run-app.sh"
+ssm-starter --ssm-name /dev/my-app/ --command /bin/bash run-app.sh
 ```
 
 Regarding format of ssm-name and pathing, note that all of the following are equivalent:
 
 ```shell
-ssm-starter --ssm-name /dev/my-app --command "/bin/bash run-app.sh"
-ssm-starter --ssm-name /dev/my-app/ --command "/bin/bash run-app.sh"
-AWS_ENV=dev ssm-starter --ssm-name my-app --command "/bin/bash run-app.sh"
+ssm-starter --ssm-name /dev/my-app --command /bin/bash run-app.sh
+ssm-starter --ssm-name /dev/my-app/ --command /bin/bash run-app.sh
+AWS_ENV=dev ssm-starter --ssm-name my-app --command /bin/bash run-app.sh
 ```
 
 ## Example
@@ -45,7 +45,7 @@ Running ssm-starter with the ssm-name "my-app" and environment variable AWS_ENV 
 ```shell
   $ export AWS_REGION=us-east-1
   $ export AWS_ENV=dev
-  $ ssm-starter --ssm-name my-app --command "/bin/bash run-app.sh"
+  $ ssm-starter --ssm-name my-app --command /bin/bash run-app.sh
   Reading parameters from SSM path: /dev/my-app/
   Read 3 parameters from SSM
   MYAPP_TEST_VAR - setting value from ssm: abc123
@@ -62,7 +62,7 @@ After this runs these variables are in the environment and accessible to the app
 The name prefix of your application.  If you have an environment variable AWS_ENV present, it will additionally prefix this with that.  Multiple `--ssm-name` arguments can be provided in which case SSM starter will read all parameters from each SSM path provided.
 
 `--command`
-The command to execute after loading the SSM variables into the environment.  Needs to be enclosed in quotes if there are spaces.  This is simply passed to os.system(command).
+The command to execute after loading the SSM variables into the environment.  The command does not need to be enclosed in quotes but *this should be the last argument as all arguments after this are assumed to be part of the command to execute*.
 
 `--abort-if-duplicates`
 This optional argument will instruct SSM Starter to abort (non-zero exit code) if any duplicate parameter names are found.  This would only occur if multiple `--ssm-name` arguments are provided.  The default behavior is to skip any encountered duplicates, which also logs a warning message.
